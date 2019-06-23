@@ -1,6 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+// import randomName from '../public/images/logo.png';
+
 import { Header, Jumbotron } from 'watson-react-components';
+// import '../public/css/style.css';
+
+// import Header from '../views/Header';
 
 // eslint-disable-mnext-lin =
 const DESCRIPTION = 'The IBM Watson Speech to Text service uses speech recognition capabilities to convert Arabic, English, Spanish, French, Brazilian Portuguese, Japanese, Korean, German, and Mandarin speech into text.';
@@ -22,13 +27,22 @@ export default function Layout({ children }) {
         <link rel="stylesheet" href="/css/style.css" />
       </head>
       <body>
-        <Header
-          mainBreadcrumbs="Speech to Text"
-          mainBreadcrumbsUrl="https://www.ibm.com/watson/services/speech-to-text/"
-          subBreadcrumbs="Speech to Text Demo"
-          subBreadcrumbsUrl="https://speech-to-text-demo.ng.bluemix.net"
-        />
-        <Jumbotron
+        <div className="header">
+          <img
+            src="/images/logo.png"
+            width="60vw"
+            // className="logo"
+            alt="PwC logo"
+          />
+          {/* <text className="headerText">EmTech Smart Meetings</text> */}
+        </div>
+        {/* <Header
+          // mainBreadcrumbs="EmTech Smart "
+          // mainBreadcrumbsUrl="https://www.ibm.com/watson/services/speech-to-text/"
+          // subBreadcrumbs="Speech to Text Demo"
+          // subBreadcrumbsUrl="https://speech-to-text-demo.ng.bluemix.net"
+        /> */}
+        {/* <Jumbotron
           serviceName="Speech to Text"
           repository="https://github.com/watson-developer-cloud/speech-to-text-nodejs"
           documentation="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-gettingStarted#gettingStarted"
@@ -36,10 +50,10 @@ export default function Layout({ children }) {
           version="GA"
           serviceIcon="/images/stt.svg"
           startInBluemix="https://cloud.ibm.com/registration/?target=%2Fcatalog%2Fservices%2Fspeech-to-text%3FhideTours%3Dtrue%26cm_mmc%3D-_-Watson%2BCore_Watson%2BCore%2B-%2BPlatform-_-WW_WW-_-wdc-ref%26cm_mmc%3D-_-Watson%2BCore_Watson%2BCore%2B-%2BPlatform-_-WW_WW-_-wdc-ref%26cm_mmca1%3D000000OF%26cm_mmca2%3D10000409"
-          description={DESCRIPTION}
-        />
+          // description={DESCRIPTION}
+        /> */}
 
-        <div className="_container _container_large gdpr-info">
+        {/* <div className="_container _container_large gdpr-info">
           {GDPR_INFO}
         </div>
         <div className="_container _container_large gdpr-info">
@@ -47,7 +61,7 @@ export default function Layout({ children }) {
           <a target="_blank" rel="noreferrer noopener" href={TERMS_OF_USE_URL}>
                 Terms of Use
           </a>
-        </div>
+        </div> */}
         <div id="root">
           {children}
         </div>

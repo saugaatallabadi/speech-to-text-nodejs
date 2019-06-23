@@ -3,6 +3,21 @@
     margin-bottom: 3rem;
 }
 
+.header{
+    /* height:50px; */
+    width:"100%";
+    padding: 2em;
+    margin-bottom: 4em;
+    /* justify-content: space-around; */
+    /* background-color: red; */
+}
+
+.headerText{
+    font-weight: bold;
+    font-size: 1em;
+    /* font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif; */
+}
+
 .base--hr {
     margin-top: 1em;
 }
@@ -106,6 +121,20 @@ dialog, dd, dt {
   outline: 0;
 }
 
+.base--button, button {
+    color: #E88D14;
+    border: 2px solid ;
+}
+
+.base--button:focus, .base--button:hover, button:focus, button:hover{
+    color:#F3BE26;
+    border: 2px solid ;
+}
+
+.tab-panels--tab.active, .tab-panels--tab:focus, .tab-panels--tab:hover {
+    color: #E88D14;
+    border-bottom: 6px solid #E88D14;
+}
 
 .base--button.mic-active {
     background-color: #E71D32;

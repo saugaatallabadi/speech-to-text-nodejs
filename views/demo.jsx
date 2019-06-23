@@ -11,8 +11,8 @@ import ModelDropdown from './model-dropdown.jsx';
 import Transcript from './transcript.jsx';
 import { Keywords, getKeywordsSummary } from './keywords.jsx';
 import SpeakersView from './speaker.jsx';
-import TimingView from './timing.jsx';
-import JSONView from './json-view.jsx';
+import Translation from './Translation.js';
+import ActionItems from './ActionItems.js';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
 
@@ -28,6 +28,7 @@ export class Demo extends Component {
       audioSource: null,
       speakerLabels: true,
       keywords: this.getKeywords('en-US_BroadbandModel'),
+      rammerToken:null,
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the
       // service and what is displayed on the demo, and could cause bugs.
@@ -94,10 +95,49 @@ export class Demo extends Component {
   stopTranscription() {
     if (this.stream) {
       this.stream.stop();
+      this.callRammerApi();
       // this.stream.removeAllListeners();
       // this.stream.recognizeStream.removeAllListeners();
     }
     this.setState({ audioSource: null });
+  }
+
+  callRammerApi(){
+    if(this.state.rammerToken!=null){
+      fetch("https://api.rammer.ai/v1/insights", {
+        method: 'POST',
+        headers: {
+        'X-API-KEY': this.state.rammerToken,
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          insightTypes: [
+            "action_item"
+          ],
+          messages: [
+              {
+                  payload: {
+                      content: "I will check the availability of the Singapore Team",
+                      contentType: "text/plain"
+                  }
+      
+              }
+          ],
+          config: {}
+        }),
+      }).then((response) => {
+          if (response.status != 200) {
+          console.log("error calling api");
+          }
+          else if (response.status == 200) {
+            response.json().then(responseJson => {
+              console.log(responseJson);
+            })
+          }
+      }).catch(error => {
+          console.log(error);
+      });
+    }
   }
 
   getRecognizeOptions(extra) {
@@ -283,12 +323,41 @@ export class Demo extends Component {
 
   componentDidMount() {
     this.fetchToken();
+    this.fetchRammerToken();
     // tokens expire after 60 minutes, so automatcally fetch a new one ever 50 minutes
     // Not sure if this will work properly if a computer goes to sleep for > 50 minutes
     // and then wakes back up
     // react automatically binds the call to this
     // eslint-disable-next-line
     this.setState({ tokenInterval: setInterval(this.fetchToken, 50 * 60 * 1000) });
+  }
+
+  fetchRammerToken(){
+    fetch("https://api.rammer.ai/oauth2/token:generate", {
+            method: 'POST',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              
+            },
+            body: JSON.stringify({
+                type: "application",
+                appId: "715f39786269407663706677722e6e74",
+                appSecret: "a3bd34bb265e4905bc01f1b3c9acc850af66910b79374677bb7e9ddc57278401"
+            }),
+          }).then((response) => {
+            if (response.status != 200) {
+              console.log("error fetching API token");
+            }
+            else if (response.status == 200) {
+              response.json().then(responseJson => {
+                this.setState({rammerToken:responseJson.accessToken});
+                console.log('got token');
+              })
+            }
+          }).catch(error => {
+            console.log(error);
+          });
   }
 
   componentWillUnmount() {
@@ -438,31 +507,31 @@ export class Demo extends Component {
 
     return (
       <Dropzone
-        onDropAccepted={this.handleUserFile}
-        onDropRejected={this.handleUserFileRejection}
-        maxSize={200 * 1024 * 1024}
-        accept="audio/wav, audio/mp3, audio/mpeg, audio/l16, audio/ogg, audio/flac, .mp3, .mpeg, .wav, .ogg, .opus, .flac" // eslint-disable-line
+        // onDropAccepted={this.handleUserFile}
+        // onDropRejected={this.handleUserFileRejection}
+        // maxSize={200 * 1024 * 1024}
+        // accept="audio/wav, audio/mp3, audio/mpeg, audio/l16, audio/ogg, audio/flac, .mp3, .mpeg, .wav, .ogg, .opus, .flac" // eslint-disable-line
         disableClick
         className="dropzone _container _container_large"
         activeClassName="dropzone-active"
         rejectClassName="dropzone-reject"
-        ref={(node) => {
-          this.dropzone = node;
-        }}
+        // ref={(node) => {
+        //   this.dropzone = node;
+        // }}
       >
 
-        <div className="drop-info-container">
+        {/* <div className="drop-info-container">
           <div className="drop-info">
             <h1>Drop an audio file here.</h1>
             <p>Watson Speech to Text supports .mp3, .mpeg, .wav, .opus, and
               .flac files up to 200mb.
             </p>
           </div>
-        </div>
+        </div> */}
 
-        <h2 className="base--h2">Transcribe Audio</h2>
+        {/* <h2 className="base--h2">Transcribe Audio</h2> */}
 
-        <ul className="base--ul">
+        {/* <ul className="base--ul">
           {micBullet}
           <li className="base--li">Upload pre-recorded audio (.mp3, .mpeg, .wav, .flac, or .opus only).</li>
           <li className="base--li">Play one of the sample audio files.*</li>
@@ -471,9 +540,9 @@ export class Demo extends Component {
         <div className="smalltext">
           *Both US English broadband sample audio files are covered under the
           Creative Commons license.
-        </div>
+        </div> */}
 
-        <div style={{
+        {/* <div style={{
           paddingRight: '3em',
           paddingBottom: '2em',
         }}
@@ -482,11 +551,11 @@ export class Demo extends Component {
           <a className="base--a" href="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#word_alternatives">word alternatives</a>, {' '}
           and <a className="base--a" href="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#keyword_spotting">spotted keywords</a>. {' '}
           Some models can <a className="base--a" href="https://cloud.ibm.com/docs/services/speech-to-text?topic=speech-to-text-output#speaker_labels">detect multiple speakers</a>; this may slow down performance.
-        </div>
-        <div className="flex setup">
-          <div className="column">
+        </div> */}
+        {/* <div className="flex setup">
+          <div className="column"> */}
 
-            <p>Voice Model:
+            {/* <p>Voice Model:
               <ModelDropdown
                 model={model}
                 token={token || accessToken}
@@ -506,9 +575,9 @@ export class Demo extends Component {
               <label className="base--inline-label" htmlFor="speaker-labels">
                 Detect multiple speakers {this.supportsSpeakerLabels() ? '' : ' (Not supported on current model)'}
               </label>
-            </p>
+            </p> */}
 
-          </div>
+          {/* </div>
           <div className="column">
 
             <p>Keywords to spot: <input
@@ -522,7 +591,7 @@ export class Demo extends Component {
             </p>
 
           </div>
-        </div>
+        </div> */}
 
 
         <div className="flex buttons">
@@ -531,7 +600,7 @@ export class Demo extends Component {
             <Icon type={audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
           </button>
 
-          <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
+          {/* <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
             <Icon type={audioSource === 'upload' ? 'stop' : 'upload'} /> Upload Audio File
           </button>
 
@@ -541,11 +610,11 @@ export class Demo extends Component {
 
           <button type="button" className={buttonClass} onClick={this.handleSample2Click}>
             <Icon type={audioSource === 'sample-2' ? 'stop' : 'play'} /> Play Sample 2
-          </button>
+          </button> */}
 
         </div>
 
-        {err}
+        {/* {err} */}
 
         <Tabs selected={0}>
           <Pane label="Text">
@@ -553,19 +622,20 @@ export class Demo extends Component {
               ? <SpeakersView messages={messages} />
               : <Transcript messages={messages} />}
           </Pane>
-          <Pane label="Word Timings and Alternatives">
-            <TimingView messages={messages} />
-          </Pane>
-          <Pane label={`Keywords ${getKeywordsSummary(settingsAtStreamStart.keywords, messages)}`}>
-            <Keywords
-              messages={messages}
-              keywords={settingsAtStreamStart.keywords}
-              isInProgress={!!audioSource}
+          <Pane label="Action Items">
+            <ActionItems ref="ActionItems" messages={messages} 
+              raw={rawMessages} formatted={formattedMessages}
             />
           </Pane>
-          <Pane label="JSON">
-            <JSONView raw={rawMessages} formatted={formattedMessages} />
+          <Pane label={"Arabic Translation"}>
+            <Translation ref="Translation"
+              messages={messages}
+              raw={rawMessages} formatted={formattedMessages}
+            />
           </Pane>
+          {/* <Pane label="JSON">
+            <JSONView raw={rawMessages} formatted={formattedMessages} />
+          </Pane>  */}
         </Tabs>
       </Dropzone>
     );
