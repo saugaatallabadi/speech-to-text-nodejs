@@ -105,7 +105,8 @@ export class Demo extends Component {
       for (var i of results[0].results) {
         text = text.concat(i.alternatives[0].transcript);
       }
-      this.setState({ text });
+      this.setState({ text }, ()=>this.callTranslateApi());
+      
       //this.setState((prevState) => ({
         //text: prevState.text + i.alternatives[0].transcript
       //}));
@@ -114,6 +115,33 @@ export class Demo extends Component {
       // this.stream.recognizeStream.removeAllListeners();
     }
     this.setState({ audioSource: null });
+  }
+
+  callTranslateApi() {
+    if (this.state.text != null) {
+      fetch("https://gateway-wdc.watsonplatform.net/language-translator/api/v3/translate?version2018-05-01", {
+        method: 'POST',
+        headers: {
+          'Authorization': "Basic YXBpa2V5Olh5eTRKLXNyZm1oUUctWDFUN2dHdWRrRGVFX3hidEZSTWZKbGpwVFJ0Sk9i",
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          "text": [this.state.text],
+          "model_id": "en-ar"
+        }),
+      }).then((response) => {
+        if (response.status != 200) {
+          console.log("error calling api");
+        }
+        else if (response.status == 200) {
+          response.json().then(responseJson => {
+            console.log(responseJson);
+          })
+        }
+      }).catch(error => {
+        console.log(error);
+      });
+    }
   }
 
   callRammerApi(){
