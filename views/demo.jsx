@@ -30,6 +30,8 @@ export class Demo extends Component {
       keywords: this.getKeywords('en-US_BroadbandModel'),
       rammerToken: null,
       text:"",
+      translation:null,
+      actionItems:null,
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the
       // service and what is displayed on the demo, and could cause bugs.
@@ -96,7 +98,6 @@ export class Demo extends Component {
   stopTranscription() {
     if (this.stream) {
       this.stream.stop();
-      this.callRammerApi();
       let results = this.getFinalAndLatestInterimResult();
       //for (i = 0; i <= results[0].results.length; i++) {
         //console.log(results[0].results[i].alternatives[0].transcript);
@@ -104,12 +105,13 @@ export class Demo extends Component {
       var text = "";
       for (var i of results[0].results) {
         text = text.concat(i.alternatives[0].transcript);
-        console.log(i.alternatives[0].transcript);
+        // console.log(i.alternatives[0].transcript);
       }
       // console.log("HELLOOOOOO"+text);
       // this.setState({ text }, ()=>console.log(this.state.text));
       this.setState({ text }, ()=>this.callTranslateApi());
-      
+      let lastFormattedMessages=this.state.formattedMessages[this.state.formattedMessages.length-1]
+      this.callRammerApi(lastFormattedMessages);
       //this.setState((prevState) => ({
         //text: prevState.text + i.alternatives[0].transcript
       //}));
@@ -122,7 +124,7 @@ export class Demo extends Component {
 
   callTranslateApi() {
     if (this.state.text != null) {
-      console.log(this.state.text);
+      // console.log(this.state.text);
       fetch("https://gateway-wdc.watsonplatform.net/language-translator/api/v3/translate?version=2018-05-01", {
         method: 'POST',
         headers: {
@@ -140,7 +142,7 @@ export class Demo extends Component {
         }
         else if (response.status == 200) {
           response.json().then(responseJson => {
-            console.log(responseJson);
+            this.setState({translation:responseJson.translations[0].translation});
           })
         }
       }).catch(error => {
@@ -149,7 +151,27 @@ export class Demo extends Component {
     }
   }
 
-  callRammerApi(){
+  callRammerApi(messages){
+
+    let actionItems=[];
+    // console.log(messages.results[1]);
+    for (var i of messages.results) {
+      let item =
+        {
+          "payload": {
+              "content": i.alternatives[0].transcript,
+              "contentType": "text/plain"
+          },
+          "from": {
+              "name": "Speaker "+i.speaker
+          }
+        }
+        actionItems.push(item);
+      // console.log(i.alternatives[0].transcript);
+    }
+
+    // results[""0""].alternatives[""0""].transcript
+    // results[""0""].speaker
     if(this.state.rammerToken!=null){
       fetch("https://api.rammer.ai/v1/insights", {
         method: 'POST',
@@ -161,15 +183,7 @@ export class Demo extends Component {
           insightTypes: [
             "action_item"
           ],
-          messages: [
-              {
-                  payload: {
-                      content: "I will check the availability of the Singapore Team",
-                      contentType: "text/plain"
-                  }
-      
-              }
-          ],
+          messages: actionItems,
           config: {}
         }),
       }).then((response) => {
@@ -671,13 +685,13 @@ export class Demo extends Component {
           </Pane>
           <Pane label="Action Items">
             <ActionItems ref="ActionItems" messages={messages} 
-              raw={rawMessages} formatted={formattedMessages}
+              raw={rawMessages} formatted={formattedMessages} actionItems={this.state.actionItems}
             />
           </Pane>
           <Pane label={"Arabic Translation"}>
             <Translation ref="Translation"
               messages={messages}
-              raw={rawMessages} formatted={formattedMessages}
+              raw={rawMessages} formatted={formattedMessages} translation={this.state.translation}
             />
           </Pane>
           {/* <Pane label="JSON">

@@ -11,7 +11,7 @@ export default class Translation extends React.Component{
     render(){
         return(
             <div>
-                <text>hi</text>
+                <text>{this.props.translation}</text>
             </div>
         )
     }

@@ -10,6 +10,7 @@ export default class Translation extends React.Component{
     }
 
     render(){
+        console.log(this.props.actionItems);
         return(
             <div>
                 
