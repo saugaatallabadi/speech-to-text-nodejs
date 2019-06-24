@@ -28,7 +28,8 @@ export class Demo extends Component {
       audioSource: null,
       speakerLabels: true,
       keywords: this.getKeywords('en-US_BroadbandModel'),
-      rammerToken:null,
+      rammerToken: null,
+      text:"",
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the
       // service and what is displayed on the demo, and could cause bugs.
@@ -96,6 +97,19 @@ export class Demo extends Component {
     if (this.stream) {
       this.stream.stop();
       this.callRammerApi();
+      let results = this.getFinalAndLatestInterimResult();
+      //for (i = 0; i <= results[0].results.length; i++) {
+        //console.log(results[0].results[i].alternatives[0].transcript);
+      //}
+      var text = "";
+      for (var i of results[0].results) {
+        text = text.concat(i.alternatives[0].transcript);
+      }
+      this.setState({ text });
+      //this.setState((prevState) => ({
+        //text: prevState.text + i.alternatives[0].transcript
+      //}));
+      //[0].results[1].alternatives[0].transcript);
       // this.stream.removeAllListeners();
       // this.stream.recognizeStream.removeAllListeners();
     }
