@@ -104,7 +104,10 @@ export class Demo extends Component {
       var text = "";
       for (var i of results[0].results) {
         text = text.concat(i.alternatives[0].transcript);
+        console.log(i.alternatives[0].transcript);
       }
+      // console.log("HELLOOOOOO"+text);
+      // this.setState({ text }, ()=>console.log(this.state.text));
       this.setState({ text }, ()=>this.callTranslateApi());
       
       //this.setState((prevState) => ({
@@ -119,11 +122,12 @@ export class Demo extends Component {
 
   callTranslateApi() {
     if (this.state.text != null) {
-      fetch("https://gateway-wdc.watsonplatform.net/language-translator/api/v3/translate?version2018-05-01", {
+      console.log(this.state.text);
+      fetch("https://gateway-wdc.watsonplatform.net/language-translator/api/v3/translate?version=2018-05-01", {
         method: 'POST',
         headers: {
           'Authorization': "Basic YXBpa2V5Olh5eTRKLXNyZm1oUUctWDFUN2dHdWRrRGVFX3hidEZSTWZKbGpwVFJ0Sk9i",
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           "text": [this.state.text],
@@ -131,6 +135,7 @@ export class Demo extends Component {
         }),
       }).then((response) => {
         if (response.status != 200) {
+          console.log(response);
           console.log("error calling api");
         }
         else if (response.status == 200) {
