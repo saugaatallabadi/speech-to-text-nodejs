@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import getSpeakerName from './getspeakername.js';
 export default function SpeakersView(props) {
   try {
     const results = props.messages.map(msg =>
@@ -14,7 +14,7 @@ export default function SpeakersView(props) {
       msg.results.map((result, i) => (
         <div key={`result-${msg.result_index + i}`}>
           <dt>{typeof result.speaker === 'number'
-            ? `Speaker ${result.speaker}: `
+            ? getSpeakerName(result.speaker,props)
             : '(Detecting speakers): '}</dt>
           <dd>{result.alternatives[0].transcript}</dd>
         </div>
@@ -31,6 +31,8 @@ export default function SpeakersView(props) {
     );
   }
 }
+
+
 
 SpeakersView.propTypes = {
   messages: PropTypes.array.isRequired, // eslint-disable-line

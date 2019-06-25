@@ -6,7 +6,6 @@ import {
 } from 'watson-react-components';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import recognizeFile from 'watson-speech/speech-to-text/recognize-file';
-
 import ModelDropdown from './model-dropdown.jsx';
 import Transcript from './transcript.jsx';
 import { Keywords, getKeywordsSummary } from './keywords.jsx';
@@ -15,8 +14,7 @@ import Translation from './Translation.js';
 import ActionItems from './ActionItems.js';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
-// import RadioGroup from '@material-ui/core/RadioGroup';
-
+import Test from './Test.js';
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
 export class Demo extends Component {
@@ -29,6 +27,12 @@ export class Demo extends Component {
       speaker3:false,
       speaker4:false,
       speaker5:false,
+      speak0:null,
+      speak1:null,
+      speak2:null,
+      speak3:null,
+      speak4:null,
+      speak5:null,
       actionItems:[],
       model: 'en-US_BroadbandModel',
       rawMessages: [],
@@ -158,6 +162,30 @@ export class Demo extends Component {
     }
   }
 
+  getSpeakerName(num){
+    if(num==0&&this.state.speak0!=null){
+      return this.state.speak0;
+    }
+    else if(num==1&&this.state.speak1!=null){
+        return this.state.speak1;
+    }    
+    else if(num==2&&this.state.speak2!=null){
+      return this.state.speak2;
+    } 
+    else if(num==3&&this.state.speak3!=null){
+        return this.state.speak3;
+    } 
+    else if(num==4&&this.state.speak4!=null){
+      return this.state.speak4;
+    } 
+    else if(num==5&&this.state.speak5!=null){
+      return this.state.speak5;
+    } 
+    else {
+      return "Speaker "+num;
+    }
+  }
+
   callRammerApi(messages){
     let actionItems=[];
     // console.log(messages.results[0]);
@@ -169,15 +197,14 @@ export class Demo extends Component {
               "contentType": "text/plain"
           },
           "from": {
-              "name": typeof i.speaker!=='undefined'?"Speaker " + i.speaker:"Someone"
+              "name": typeof i.speaker!=='undefined'?this.getSpeakerName(i.speaker):"Someone"
+              // typeof i.speaker!=='undefined'?"Speaker " + i.speaker:"Someone"
           }
         }
         actionItems.push(item);
       // console.log(i.alternatives[0].transcript);
     }
 
-    // results[""0""].alternatives[""0""].transcript
-    // results[""0""].speaker
     if(this.state.rammerToken!=null){
       fetch("https://api.rammer.ai/v1/insights", {
         method: 'POST',
@@ -722,15 +749,16 @@ export class Demo extends Component {
         {/* {err} */}
 
         <Tabs selected={0}>
-          <Pane label="Text">
+          <Pane label="Transcription">
             {settingsAtStreamStart.speakerLabels
-              ? <SpeakersView messages={messages} />
+              ? <SpeakersView messages={messages} 
+              speaker0={this.state.speak0}
+              speaker1={this.state.speak1}
+              speaker2={this.state.speak2}
+              speaker3={this.state.speak3}
+              speaker4={this.state.speak4}
+              speaker5={this.state.speak5}/>
               : <Transcript messages={messages} />}
-          </Pane>
-          <Pane label="Action Items">
-            <ActionItems ref="ActionItems" messages={messages} 
-              raw={rawMessages} formatted={formattedMessages} actionItems={this.state.actionItems}
-            />
           </Pane>
           <Pane label={"Arabic Translation"}>
             <Translation ref="Translation"
@@ -738,18 +766,17 @@ export class Demo extends Component {
               raw={rawMessages} formatted={formattedMessages} translation={this.state.translation}
             />
           </Pane>
+          <Pane label="Action Items">
+            <ActionItems ref="ActionItems" messages={messages} 
+              raw={rawMessages} formatted={formattedMessages} actionItems={this.state.actionItems}
+            />
+          </Pane>
           {/* <Pane label="JSON">
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
         </Tabs>
-        <div style={{alignItems:'center', justifyContent:'center', width:'100%'}}>
-        <input
-          type="radio"
-          name="react-tips"
-          value="option2"
-          className="form-check-input"
-          label="hi"
-        />
+        <div style={{alignItems:'center', justifyContent:'center', width:'100%',height:'500px',backgroundColor:'cyan'}}>
+          {/* <Test></Test> */}
         </div>
       </Dropzone>
     );
