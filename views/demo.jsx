@@ -15,6 +15,7 @@ import Translation from './Translation.js';
 import ActionItems from './ActionItems.js';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
+// import RadioGroup from '@material-ui/core/RadioGroup';
 
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
@@ -22,6 +23,12 @@ export class Demo extends Component {
   constructor(props) {
     super();
     this.state = {
+      speaker0:false,
+      speaker1:false,
+      speaker2:false,
+      speaker3:false,
+      speaker4:false,
+      speaker5:false,
       actionItems:[],
       model: 'en-US_BroadbandModel',
       rawMessages: [],
@@ -373,6 +380,7 @@ export class Demo extends Component {
   handleFormattedMessage(msg) {
     const { formattedMessages } = this.state;
     this.setState({ formattedMessages: formattedMessages.concat(msg) });
+    this.renderRadioButtons(formattedMessages.concat(msg))
   }
 
   handleTranscriptEnd() {
@@ -394,30 +402,30 @@ export class Demo extends Component {
 
   fetchRammerToken(){
     fetch("https://api.rammer.ai/oauth2/token:generate", {
-            method: 'POST',
-            headers: {
-              'Accept': 'application/json',
-              'Content-Type': 'application/json',
-              
-            },
-            body: JSON.stringify({
-                type: "application",
-                appId: "715f39786269407663706677722e6e74",
-                appSecret: "a3bd34bb265e4905bc01f1b3c9acc850af66910b79374677bb7e9ddc57278401"
-            }),
-          }).then((response) => {
-            if (response.status != 200) {
-              console.log("error fetching API token");
-            }
-            else if (response.status == 200) {
-              response.json().then(responseJson => {
-                this.setState({rammerToken:responseJson.accessToken});
-                console.log('got token');
-              })
-            }
-          }).catch(error => {
-            console.log(error);
-          });
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        
+      },
+      body: JSON.stringify({
+          type: "application",
+          appId: "715f39786269407663706677722e6e74",
+          appSecret: "a3bd34bb265e4905bc01f1b3c9acc850af66910b79374677bb7e9ddc57278401"
+      }),
+    }).then((response) => {
+      if (response.status != 200) {
+        console.log("error fetching API token");
+      }
+      else if (response.status == 200) {
+        response.json().then(responseJson => {
+          this.setState({rammerToken:responseJson.accessToken});
+          console.log('got token');
+        })
+      }
+    }).catch(error => {
+      console.log(error);
+    });
   }
 
   componentWillUnmount() {
@@ -528,6 +536,43 @@ export class Demo extends Component {
       err = 'Unable to access microphone';
     }
     this.setState({ error: err.message || err });
+  }
+
+  renderRadioButtons(messages){
+    
+    let speaker0=false;
+    let speaker1=false;
+    let speaker2=false;
+    let speaker3=false;
+    let speaker4=false;
+    let speaker5=false;
+
+    for(var message of messages[messages.length-1].results){
+      // console.log(message);
+      if(message.speaker=="0"){
+        speaker0=true;
+      }
+      else if(message.speaker=="1"){
+        speaker1=true;
+      }
+      else if(message.speaker=="2"){
+        speaker2=true;
+      }
+      else if(message.speaker=="3"){
+        speaker3=true;
+      }
+      else if(message.speaker=="4"){
+        speaker4=true;
+      }
+      else if(message.speaker=="5"){
+        speaker5=true;
+      }
+    }
+    this.setState({speaker0,speaker1,speaker2,speaker3,speaker4,speaker5});
+
+    return(
+      <div style={{textAlign:'center'}}>hi</div>
+    )
   }
 
   render() {
@@ -697,8 +742,14 @@ export class Demo extends Component {
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
         </Tabs>
-        <div style={{alignItems:'center', justifyContent:'center', width:'100%', backgroundColor:'red'}}>
-          <div style={{textAlign:'center'}}>hello</div>
+        <div style={{alignItems:'center', justifyContent:'center', width:'100%'}}>
+        <input
+          type="radio"
+          name="react-tips"
+          value="option2"
+          className="form-check-input"
+          label="hi"
+        />
         </div>
       </Dropzone>
     );
