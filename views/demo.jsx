@@ -22,6 +22,7 @@ export class Demo extends Component {
   constructor(props) {
     super();
     this.state = {
+      actionItems:[],
       model: 'en-US_BroadbandModel',
       rawMessages: [],
       formattedMessages: [],
@@ -31,7 +32,6 @@ export class Demo extends Component {
       rammerToken: null,
       text:"",
       translation:null,
-      actionItems:null,
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the
       // service and what is displayed on the demo, and could cause bugs.
@@ -154,7 +154,7 @@ export class Demo extends Component {
   callRammerApi(messages){
 
     let actionItems=[];
-    // console.log(messages.results[1]);
+    // console.log(messages.results[0]);
     for (var i of messages.results) {
       let item =
         {
@@ -163,7 +163,7 @@ export class Demo extends Component {
               "contentType": "text/plain"
           },
           "from": {
-              "name": "Speaker "+i.speaker
+              "name": "Speaker " + i.speaker
           }
         }
         actionItems.push(item);
@@ -188,11 +188,11 @@ export class Demo extends Component {
         }),
       }).then((response) => {
           if (response.status != 200) {
-          console.log("error calling api");
+            console.log("error calling api");
           }
           else if (response.status == 200) {
             response.json().then(responseJson => {
-              console.log(responseJson);
+              this.setState({actionItems:responseJson.insights})
             })
           }
       }).catch(error => {
