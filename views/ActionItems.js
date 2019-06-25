@@ -15,7 +15,7 @@ export default class ActionItems extends React.Component{
         if (typeof items !== 'undefined'){
             return items.map((item, i) =>
                 <div key={i}>
-                    <span>{item.from.name} {item.text}</span>
+                    <span>{item.from.name}: {item.text}</span>
                 </div>
             )
         }

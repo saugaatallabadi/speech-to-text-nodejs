@@ -152,7 +152,6 @@ export class Demo extends Component {
   }
 
   callRammerApi(messages){
-
     let actionItems=[];
     // console.log(messages.results[0]);
     for (var i of messages.results) {
@@ -163,7 +162,7 @@ export class Demo extends Component {
               "contentType": "text/plain"
           },
           "from": {
-              "name": "Speaker " + i.speaker
+              "name": typeof i.speaker!=='undefined'?"Speaker " + i.speaker:"Someone"
           }
         }
         actionItems.push(item);
@@ -698,6 +697,9 @@ export class Demo extends Component {
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
         </Tabs>
+        <div style={{alignItems:'center', justifyContent:'center', width:'100%', backgroundColor:'red'}}>
+          <div style={{textAlign:'center'}}>hello</div>
+        </div>
       </Dropzone>
     );
   }
