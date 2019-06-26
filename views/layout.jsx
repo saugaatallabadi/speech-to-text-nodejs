@@ -30,7 +30,7 @@ export default function Layout({ children }) {
         <div className="header">
           <img
             src="/images/logo.png"
-            width="60vw"
+            width="130vw"
             // className="logo"
             alt="PwC logo"
           />

@@ -15,7 +15,7 @@ import ActionItems from './ActionItems.js';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
 import Test from './Test.js';
-import { Send } from 'react-feather';
+import { Send, Download } from 'react-feather';
 
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
@@ -730,20 +730,10 @@ export class Demo extends Component {
           <button type="button" className={micButtonClass} onClick={this.handleMicClick}>
             <Icon type={audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
           </button>
-
-           <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
-            <Send></Send>
-            Send Mail
+          
+          <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
+            <Icon type={'link-out'} /> Send Transcript
           </button>
-
-          {/*
-          <button type="button" className={buttonClass} onClick={this.handleSample1Click}>
-            <Icon type={audioSource === 'sample-1' ? 'stop' : 'play'} /> Play Sample 1
-          </button>
-
-          <button type="button" className={buttonClass} onClick={this.handleSample2Click}>
-            <Icon type={audioSource === 'sample-2' ? 'stop' : 'play'} /> Play Sample 2
-          </button> */}
 
         </div>
 
@@ -776,20 +766,51 @@ export class Demo extends Component {
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
         </Tabs>
-        <div style={{alignItems:'center', justifyContent:'center', width:'100%',height:'500px',backgroundColor:'cyan'}}>
-        <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
-            <Send></Send>
-            Send Mail
+        <div className="flex buttons">
+          Speaker 0:&nbsp;&nbsp;&nbsp; 
+        <button type="button" className={buttonClass} onClick={null}>
+          Sami
           </button>
-          <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
-            <Send></Send>
-            Send Mail
+          <button type="button" className={buttonClass} onClick={null}>
+          Nadine
           </button>
-          <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
-            <Send></Send>
-            Send Mail
+          <button type="button" className={buttonClass} onClick={null}>
+          Diego
           </button>
         </div>
+
+        <div className="flex buttons">
+          Speaker 1:&nbsp;&nbsp;&nbsp;
+        <button type="button" className={buttonClass} onClick={null}>
+          Sami
+          </button>
+          <button type="button" className={buttonClass} onClick={null}>
+          Nadine
+          </button>
+          <button type="button" className={buttonClass} onClick={null}>
+          Diego
+          </button>
+        </div>
+
+        <div className="flex buttons">
+          Speaker 2:&nbsp;&nbsp;&nbsp;
+        <button type="button" className={buttonClass} onClick={null}>
+          Sami
+          </button>
+          <button type="button" className={buttonClass} onClick={null}>
+          Nadine
+          </button>
+          <button type="button" className={buttonClass} onClick={null}>
+          Diego
+          </button>
+
+
+
+
+
+        </div>
+
+        
       </Dropzone>
     );
   }
