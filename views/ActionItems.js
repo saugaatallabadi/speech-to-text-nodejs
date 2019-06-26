@@ -11,7 +11,7 @@ export default class ActionItems extends React.Component{
 
     renderActionItems(){
         let items = this.props.actionItems;
-        // console.log(this.props.actionItems);
+
         if (typeof items !== 'undefined'){
             return items.map((item, i) =>
                 <div key={i}>
