@@ -44,8 +44,8 @@ export class Demo extends Component {
       speakerLabels: true,
       keywords: this.getKeywords('en-US_BroadbandModel'),
       rammerToken: null,
-      text:"",
-      translation:null,
+      text:[],
+      translations:null,
       // transcript model and keywords are the state that they were when the button was clicked.
       // Changing them during a transcription would cause a mismatch between the setting sent to the
       // service and what is displayed on the demo, and could cause bugs.
@@ -112,24 +112,16 @@ export class Demo extends Component {
   stopTranscription() {
     if (this.stream) {
       this.stream.stop();
-      let results = this.getFinalAndLatestInterimResult();
-      //for (i = 0; i <= results[0].results.length; i++) {
-        //console.log(results[0].results[i].alternatives[0].transcript);
-      //}
-      var text = "";
-      for (var i of results[0].results) {
-        text = text.concat(i.alternatives[0].transcript);
-        // console.log(i.alternatives[0].transcript);
-      }
-      // console.log("HELLOOOOOO"+text);
-      // this.setState({ text }, ()=>console.log(this.state.text));
-      this.setState({ text }, ()=>this.callTranslateApi());
       let lastFormattedMessages=this.state.formattedMessages[this.state.formattedMessages.length-1]
+      // console.log(lastFormattedMessages);
+      var text = [];
+      for (var i of lastFormattedMessages.results) {
+        text.push(this.getSpeakerName(i.speaker).concat(": "+i.alternatives[0].transcript));
+        // console.log(this.getSpeakerName(i.speaker).concat(": "+i.alternatives[0].transcript))
+      }
+      // console.log('??')
+      this.setState({ text }, ()=>this.callTranslateApi());
       this.callRammerApi(lastFormattedMessages);
-      //this.setState((prevState) => ({
-        //text: prevState.text + i.alternatives[0].transcript
-      //}));
-      //[0].results[1].alternatives[0].transcript);
       // this.stream.removeAllListeners();
       // this.stream.recognizeStream.removeAllListeners();
     }
@@ -137,8 +129,11 @@ export class Demo extends Component {
   }
 
   callTranslateApi() {
+    // console.log("!!");
+
     if (this.state.text != null) {
-      // console.log(this.state.text);
+
+      // console.log("!!");
       fetch("https://gateway-wdc.watsonplatform.net/language-translator/api/v3/translate?version=2018-05-01", {
         method: 'POST',
         headers: {
@@ -146,7 +141,7 @@ export class Demo extends Component {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          "text": [this.state.text],
+          "text": this.state.text,
           "model_id": "en-ar"
         }),
       }).then((response) => {
@@ -156,7 +151,8 @@ export class Demo extends Component {
         }
         else if (response.status == 200) {
           response.json().then(responseJson => {
-            this.setState({translation:responseJson.translations[0].translation});
+            // console.log(responseJson);
+            this.setState({translations:responseJson.translations});
           })
         }
       }).catch(error => {
@@ -185,7 +181,7 @@ export class Demo extends Component {
       return this.state.speak5;
     } 
     else {
-      return "Speaker "+num;
+      return num!=null?"Speaker "+num:"Someone";
     }
   }
 
@@ -768,7 +764,7 @@ export class Demo extends Component {
           <Pane label={"Arabic Translation"}>
             <Translation ref="Translation"
               messages={messages}
-              raw={rawMessages} formatted={formattedMessages} translation={this.state.translation}
+              raw={rawMessages} formatted={formattedMessages} translations={this.state.translations}
             />
           </Pane>
           <Pane label="Action Items">

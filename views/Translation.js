@@ -8,10 +8,24 @@ export default class Translation extends React.Component{
 
         };
     }
+
+    renderTranslation(){
+        // console.log(this.props.translations);
+        let items = this.props.translations;
+        // console.log(this.props.actionItems);
+        if (typeof items !== 'undefined'){
+            return items.map((item, i) =>
+                <div key={i}>
+                    <span>{item.translation}</span>
+                </div>
+            )
+        }
+    }
+
     render(){
         return(
             <div>
-                <span>{this.props.translation}</span>
+                {this.renderTranslation()}
             </div>
         )
     }
