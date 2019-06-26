@@ -24,6 +24,7 @@ export class Demo extends Component {
     // console.log(React.version);
     super();
     this.state = {
+      sendDisabled:true,
       emailBody:'',
       mailText:"Send Transcript",
       speaker0:false,
@@ -117,14 +118,14 @@ export class Demo extends Component {
       let lastFormattedMessages=this.state.formattedMessages[this.state.formattedMessages.length-1]
       // console.log(lastFormattedMessages);
       var text = [];
-      var emailBody=''
+      // var emailBody=''
       for (var i of lastFormattedMessages.results) {
         text.push(this.getSpeakerName(i.speaker).concat(": "+i.alternatives[0].transcript));
-        emailBody = emailBody + this.getSpeakerName(i.speaker).concat(": "+i.alternatives[0].transcript+'<br/>')
+        // emailBody = emailBody + this.getSpeakerName(i.speaker).concat(": "+i.alternatives[0].transcript+'<br/>')
         // console.log(this.getSpeakerName(i.speaker).concat(": "+i.alternatives[0].transcript))
       }
       // console.log('??')
-      this.setState({ text, emailBody }, ()=>this.callTranslateApi());
+      this.setState({ text }, ()=>this.callTranslateApi());
       this.callRammerApi(lastFormattedMessages);
       // this.stream.removeAllListeners();
       // this.stream.recognizeStream.removeAllListeners();
@@ -134,9 +135,7 @@ export class Demo extends Component {
 
   callTranslateApi() {
     // console.log("!!");
-
     if (this.state.text != null) {
-
       // console.log("!!");
       fetch("https://gateway-wdc.watsonplatform.net/language-translator/api/v3/translate?version=2018-05-01", {
         method: 'POST',
@@ -156,7 +155,7 @@ export class Demo extends Component {
         else if (response.status == 200) {
           response.json().then(responseJson => {
             // console.log(responseJson);
-            this.setState({translations:responseJson.translations});
+            this.setState({translations:responseJson.translations},()=>this.setState({sendDisabled:false}));
           })
         }
       }).catch(error => {
@@ -605,8 +604,13 @@ export class Demo extends Component {
     )
   }
 
+  getTranslation(){
+    return this.state.translations.map((item, i) =>
+      item.translation+'<br/>'
+    )
+  }
+
   sendTranscript(){
-    console.log(this.state.emailBody);
     fetch("https://api.sendgrid.com/v3/mail/send", {
         method: 'POST',
         headers: {
@@ -633,9 +637,9 @@ export class Demo extends Component {
           "content": [
             {
               "type": "text/html",
-              "value": '<!doctype html><html> <head> <meta name="viewport" content="width=device-width" /> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'+
-              this.state.emailBody+
-              '<style> /* ------------------------------------- GLOBAL RESETS ------------------------------------- */ img { border: none; -ms-interpolation-mode: bicubic; max-width: 750px; } body { background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; } table { border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; } table td { font-family: sans-serif; font-size: 14px; vertical-align: top; } /* ------------------------------------- BODY & CONTAINER ------------------------------------- */ .body { background-color: #f6f6f6; width: 100%; } /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */ .container { display: block; Margin: 0 auto !important; /* makes it centered */ max-width: 700px; padding: 10px; width: 700px; } /* This should also be a block element, so that it will fill 100% of the .container */ .content { box-sizing: border-box; display: block; Margin: 0 auto; max-width: 700px; padding: 10px; } /* ------------------------------------- HEADER, FOOTER, MAIN ------------------------------------- */ .main { background: #ffffff; border-radius: 3px; width: 100%; } .wrapper { box-sizing: border-box; padding: 20px; } .content-block { padding-bottom: 10px; padding-top: 10px; } .footer { clear: both; Margin-top: 10px; text-align: center; width: 100%; } .footer td, .footer p, .footer span, .footer a { color: #000000; font-size: 12px; text-align: center; } /* ------------------------------------- TYPOGRAPHY ------------------------------------- */ h1, h2, h3, h4 { color: #000000; font-family: sans-serif; font-weight: 400; line-height: 1.4; margin: 0; Margin-bottom: 30px; } h1 { font-size: 35px; font-weight: 300; text-align: center; text-transform: capitalize; } p, ul, ol { font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px; } p li, ul li, ol li { list-style-position: inside; margin-left: 5px; } a { color: #000000; text-decoration: underline; } /* ------------------------------------- BUTTONS ------------------------------------- */ .btn { box-sizing: border-box; width: 100%; } .btn > tbody > tr > td { padding-bottom: 4px; } .btn table { width: auto; } .btn table td { background-color: #000000; border-radius: 5px; text-align: center; } .btn a { background-color: #000000; border: solid 1px #E0301E; border-radius: 5px; box-sizing: border-box; color: #E0301E; cursor: pointer; display: inline-block; font-size: 8px; font-weight: bold; margin: 0; padding: 6px 15px; text-decoration: none; text-transform: none; } .btn-primary table td { background-color: #E0301E; } .btn-primary a { background-color: #E0301E; border-color: #E0301E; color: #ffffff; } /* ------------------------------------- OTHER STYLES THAT MIGHT BE USEFUL ------------------------------------- */ .last { margin-bottom: 0; } .first { margin-top: 0; } .align-center { text-align: center; } .align-right { text-align: right; } .align-left { text-align: left; } .clear { clear: both; } .mt0 { margin-top: 0; } .mb0 { margin-bottom: 0; } .preheader { color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0; } .powered-by a { text-decoration: none; } hr { border: 0; border-bottom: 1px solid #000000; Margin: 20px 0; } /* ------------------------------------- RESPONSIVE AND MOBILE FRIENDLY STYLES ------------------------------------- */ @media only screen and (max-width: 620px) { table[class=body] h1 { font-size: 28px !important; margin-bottom: 10px !important; } table[class=body] p, table[class=body] ul, table[class=body] ol, table[class=body] td, table[class=body] span, table[class=body] a { font-size: 16px !important; } table[class=body] .wrapper, table[class=body] .article { padding: 10px !important; } table[class=body] .content { padding: 0 !important; } table[class=body] .container { padding: 0 !important; width: 100% !important; } table[class=body] .main { border-left-width: 0 !important; border-radius: 0 !important; border-right-width: 0 !important; } table[class=body] .btn table { width: 100% !important; } table[class=body] .btn a { width: 100% !important; } table[class=body] .img-responsive { height: auto !important; max-width: 100% !important; width: auto !important; }} /* ------------------------------------- PRESERVE THESE STYLES IN THE HEAD ------------------------------------- */ @media all { .ExternalClass { width: 100%; } .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; } .apple-link a { color: inherit !important; font-family: inherit !important; font-size: inherit !important; font-weight: inherit !important; line-height: inherit !important; text-decoration: none !important; } .btn-primary table td:hover { background-color: #E0301E !important; } .btn-primary a:hover { background-color: #E0301E !important; border-color: #E0301E !important; } } </style> </head> <body class=""> <table border="0" cellpadding="0" cellspacing="0" class="body"> <tr> <td> </td> <td class="container"> <div class="content"> <!-- START CENTERED WHITE CONTAINER --> <span class="preheader" ></span> <table class="main"> <!-- START MAIN CONTENT AREA --> <tr> <td class="wrapper" style =" width: 85%";> <img src ="https://i.imgur.com/I9mE877.png"  style =" width: 100%";> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td><span style="color: #000000; "> <p>Hi there!</p> <p>Please find attached the file requested: Client - Operations, Business Continuity Plan </p> <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary"> <tbody> <tr> <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary"> <tbody> <tr> <td align="left"> <table border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td> <a href="https://docs.google.com/presentation/d/1-a9aEQZnzUGm46RbYD_EEXHDwYNm79yVbA_jRvMOwyw/edit?usp=sharing" target="_blank">Click here to learn more about BCM.ai!</a> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <p></p> <p>Warm Regards</p></span> </td> </tr> </table> </td> </tr> <!-- END MAIN CONTENT AREA --> </table> <!-- START FOOTER --> <div class="footer"> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td class="content-block"> <span class="apple-link"></span> <br> This email is powered by BCM.ai </br> </td> </tr> </table> </div> <!-- END FOOTER --> <!-- END CENTERED WHITE CONTAINER --> </div> </td> <td> </td> </tr> </table> </body></html>'
+              "value": '<!doctype html><html> <head> <meta name="viewport" content="width=device-width" /> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style> /* ------------------------------------- GLOBAL RESETS ------------------------------------- */ img { border: none; -ms-interpolation-mode: bicubic; max-width: 750px; } body { background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; } table { border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; } table td { font-family: sans-serif; font-size: 14px; vertical-align: top; } /* ------------------------------------- BODY & CONTAINER ------------------------------------- */ .body { background-color: #f6f6f6; width: 100%; } /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */ .container { display: block; Margin: 0 auto !important; /* makes it centered */ max-width: 700px; padding: 10px; width: 700px; } /* This should also be a block element, so that it will fill 100% of the .container */ .content { box-sizing: border-box; display: block; Margin: 0 auto; max-width: 700px; padding: 10px; } /* ------------------------------------- HEADER, FOOTER, MAIN ------------------------------------- */ .main { background: #ffffff; border-radius: 3px; width: 100%; } .wrapper { box-sizing: border-box; padding: 20px; } .content-block { padding-bottom: 10px; padding-top: 10px; } .footer { clear: both; Margin-top: 10px; text-align: center; width: 100%; } .footer td, .footer p, .footer span, .footer a { color: #000000; font-size: 12px; text-align: center; } /* ------------------------------------- TYPOGRAPHY ------------------------------------- */ h1, h2, h3, h4 { color: #000000; font-family: sans-serif; font-weight: 400; line-height: 1.4; margin: 0; Margin-bottom: 30px; } h1 { font-size: 35px; font-weight: 300; text-align: center; text-transform: capitalize; } p, ul, ol { font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px; } p li, ul li, ol li { list-style-position: inside; margin-left: 5px; } a { color: #000000; text-decoration: underline; } /* ------------------------------------- BUTTONS ------------------------------------- */ .btn { box-sizing: border-box; width: 100%; } .btn > tbody > tr > td { padding-bottom: 4px; } .btn table { width: auto; } .btn table td { background-color: #000000; border-radius: 5px; text-align: center; } .btn a { background-color: #000000; border: solid 1px #E0301E; border-radius: 5px; box-sizing: border-box; color: #E0301E; cursor: pointer; display: inline-block; font-size: 8px; font-weight: bold; margin: 0; padding: 6px 15px; text-decoration: none; text-transform: none; } .btn-primary table td { background-color: #E0301E; } .btn-primary a { background-color: #E0301E; border-color: #E0301E; color: #ffffff; } /* ------------------------------------- OTHER STYLES THAT MIGHT BE USEFUL ------------------------------------- */ .last { margin-bottom: 0; } .first { margin-top: 0; } .align-center { text-align: center; } .align-right { text-align: right; } .align-left { text-align: left; } .clear { clear: both; } .mt0 { margin-top: 0; } .mb0 { margin-bottom: 0; } .preheader { color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0; } .powered-by a { text-decoration: none; } hr { border: 0; border-bottom: 1px solid #000000; Margin: 20px 0; } /* ------------------------------------- RESPONSIVE AND MOBILE FRIENDLY STYLES ------------------------------------- */ @media only screen and (max-width: 620px) { table[class=body] h1 { font-size: 28px !important; margin-bottom: 10px !important; } table[class=body] p, table[class=body] ul, table[class=body] ol, table[class=body] td, table[class=body] span, table[class=body] a { font-size: 16px !important; } table[class=body] .wrapper, table[class=body] .article { padding: 10px !important; } table[class=body] .content { padding: 0 !important; } table[class=body] .container { padding: 0 !important; width: 100% !important; } table[class=body] .main { border-left-width: 0 !important; border-radius: 0 !important; border-right-width: 0 !important; } table[class=body] .btn table { width: 100% !important; } table[class=body] .btn a { width: 100% !important; } table[class=body] .img-responsive { height: auto !important; max-width: 100% !important; width: auto !important; }} /* ------------------------------------- PRESERVE THESE STYLES IN THE HEAD ------------------------------------- */ @media all { .ExternalClass { width: 100%; } .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; } .apple-link a { color: inherit !important; font-family: inherit !important; font-size: inherit !important; font-weight: inherit !important; line-height: inherit !important; text-decoration: none !important; } .btn-primary table td:hover { background-color: #E0301E !important; } .btn-primary a:hover { background-color: #E0301E !important; border-color: #E0301E !important; } } </style> </head> <body class=""> <table border="0" cellpadding="0" cellspacing="0" class="body"> <tr> <td> </td> <td class="container"> <div class="content"> <!-- START CENTERED WHITE CONTAINER --> <span class="preheader" ></span> <table class="main"> <!-- START MAIN CONTENT AREA --> <tr> <td class="wrapper" style =" width: 85%";> <img src ="https://i.imgur.com/I9mE877.png"  style =" width: 100%";> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td><span style="color: #000000; "><p>See attached for meeting minutes in Arabic</p><p>'
+              +this.getTranslation()
+              +'</p> <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary"> <tbody> <tr> <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary"> <tbody> <tr> <td align="left"> <table border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td> <a href="https://docs.google.com/presentation/d/1-a9aEQZnzUGm46RbYD_EEXHDwYNm79yVbA_jRvMOwyw/edit?usp=sharing" target="_blank">Click here to learn more about BCM.ai!</a> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <p></p> <p>Warm Regards</p></span> </td> </tr> </table> </td> </tr> <!-- END MAIN CONTENT AREA --> </table> <!-- START FOOTER --> <div class="footer"> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td class="content-block"> <span class="apple-link"></span> <br> This email is powered by BCM.ai </br> </td> </tr> </table> </div> <!-- END FOOTER --> <!-- END CENTERED WHITE CONTAINER --> </div> </td> <td> </td> </tr> </table> </body></html>'
             }
           ],
         
@@ -792,7 +796,7 @@ export class Demo extends Component {
             <Icon type={audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
           </button>
           
-          <button type="button" className={buttonClass} onClick={()=>this.sendTranscript()}>
+          <button type="button" className={buttonClass} disabled={this.state.sendDisabled} onClick={()=>this.sendTranscript()}>
             <Icon type={'link-out'} /> {this.state.mailText}
           </button>
 
@@ -827,88 +831,126 @@ export class Demo extends Component {
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
         </Tabs>
-        <div className="flex buttons">
+        {this.state.speaker0?<div className="flex buttons">
 
         Speaker 0:&nbsp;&nbsp;&nbsp;
         <ButtonsGroup
           type="radio"  // radio, button, or checkbox
           name="radio-buttonsS0"
           background-color="#dc9038"
-          onClick={e => console.log('clicked', e)}
-          onChange={e => console.log('changed', e)}
+          onClick={e => this.setState({speak0:e.currentTarget.value})}
+          // onChange={() => console.log('changed', value)}
           buttons={[{
-            value: 1,
+            value: "Sami",
             id: 'radio-buttons-10',  // id's must be unique across the entire page. Default value is name-value
             text: 'Sami',
           }, {
-            value: 2,
+            value: "Nadine",
             id: 'radio-buttons-20',
             text: 'Nadine',
           }, {
-            value: 3,
+            value: "Zubair",
             id: 'radio-buttons-30',
             text: 'Zubair',
           }]}
         />
 
-        </div>
+        </div>:null}
 
-        <div className="flex buttons">
+        {this.state.speaker1?<div className="flex buttons">
 
         Speaker 1:&nbsp;&nbsp;&nbsp;
         <ButtonsGroup
           type="radio"  // radio, button, or checkbox
           name="radio-buttonsS1"
           fill="#dc9038"
-          onClick={e => console.log('clicked', e)}
-          onChange={e => console.log('changed', e)}
+          onClick={e => this.setState({speak1:e.currentTarget.value})}
+          // onChange={e => console.log('changed', e)}
           buttons={[{
-            value: 1,
+            value: "Sami",
             id: 'radio-buttons-11',  // id's must be unique across the entire page. Default value is name-value
             text: 'Sami',
           }, {
-            value: 2,
+            value: "Nadine",
             id: 'radio-buttons-21',
             text: 'Nadine',
           }, {
-            value: 3,
+            value: "Zubair",
             id: 'radio-buttons-31',
             text: 'Zubair',
           }]}
         />
 
-    </div>
-    <div className="flex buttons">
+    </div>:null}
+    {this.state.speaker2?<div className="flex buttons">
         Speaker 2:&nbsp;&nbsp;&nbsp;
           <ButtonsGroup
           type="radio"  // radio, button, or checkbox
           name="radio-buttonsS2"
           fill="#dc9038"
-          onClick={e => console.log('clicked', e)}
-          onChange={e => console.log('changed', e)}
+          onClick={e => this.setState({speak2:e.currentTarget.value})}
+          // onChange={e => console.log('changed', e)}
           buttons={[{
-            value: 1,
+            value: "Sami",
             id: 'radio-buttons-12',  // id's must be unique across the entire page. Default value is name-value
             text: 'Sami',
           }, {
-            value: 2,
+            value: "Nadine",
             id: 'radio-buttons-22',
             text: 'Nadine',
           }, {
-            value: 3,
+            value: "Zubair",
             id: 'radio-buttons-32',
             text: 'Zubair',
           }]}
         />
-
-      
-
-
-
-
-        </div>
-
-        
+        </div>:null}
+        {this.state.speaker3?<div className="flex buttons">
+        Speaker 3:&nbsp;&nbsp;&nbsp;
+          <ButtonsGroup
+          type="radio"  // radio, button, or checkbox
+          name="radio-buttonsS3"
+          fill="#dc9038"
+          onClick={e => this.setState({speak3:e.currentTarget.value})}
+          // onChange={e => console.log('changed', e)}
+          buttons={[{
+            value: "Sami",
+            id: 'radio-buttons-100',  // id's must be unique across the entire page. Default value is name-value
+            text: 'Sami',
+          }, {
+            value: "Nadine",
+            id: 'radio-buttons-101',
+            text: 'Nadine',
+          }, {
+            value: "Zubair",
+            id: 'radio-buttons-102',
+            text: 'Zubair',
+          }]}
+        />
+        </div>:null}
+        {this.state.speaker4?<div className="flex buttons">
+        Speaker 4:&nbsp;&nbsp;&nbsp;
+          <ButtonsGroup
+          type="radio"  // radio, button, or checkbox
+          name="radio-buttonsS4"
+          fill="#dc9038"
+          onClick={e => this.setState({speak4:e.currentTarget.value})}
+          // onChange={e => console.log('changed', e)}
+          buttons={[{
+            value: "Sami",
+            id: 'radio-buttons-16',  // id's must be unique across the entire page. Default value is name-value
+            text: 'Sami',
+          }, {
+            value: "Nadine",
+            id: 'radio-buttons-27',
+            text: 'Nadine',
+          }, {
+            value: "Zubair",
+            id: 'radio-buttons-38',
+            text: 'Zubair',
+          }]}
+        />
+        </div>:null}
       </Dropzone>
     );
   }
