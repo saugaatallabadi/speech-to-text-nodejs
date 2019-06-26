@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import {
-  Icon, Tabs, Pane, Alert,
+  Icon, Tabs, Pane, Alert, ButtonsGroup
 } from 'watson-react-components';
 import recognizeMicrophone from 'watson-speech/speech-to-text/recognize-microphone';
 import recognizeFile from 'watson-speech/speech-to-text/recognize-file';
@@ -828,43 +828,80 @@ export class Demo extends Component {
           </Pane>  */}
         </Tabs>
         <div className="flex buttons">
-          Speaker 0:&nbsp;&nbsp;&nbsp; 
-        <button type="button" className={buttonClass} onClick={null}>
-          Sami
-          </button>
-          <button type="button" className={buttonClass} onClick={null}>
-          Nadine
-          </button>
-          <button type="button" className={buttonClass} onClick={null}>
-          Diego
-          </button>
+
+        Speaker 0:&nbsp;&nbsp;&nbsp;
+        <ButtonsGroup
+          type="radio"  // radio, button, or checkbox
+          name="radio-buttonsS0"
+          background-color="#dc9038"
+          onClick={e => console.log('clicked', e)}
+          onChange={e => console.log('changed', e)}
+          buttons={[{
+            value: 1,
+            id: 'radio-buttons-10',  // id's must be unique across the entire page. Default value is name-value
+            text: 'Sami',
+          }, {
+            value: 2,
+            id: 'radio-buttons-20',
+            text: 'Nadine',
+          }, {
+            value: 3,
+            id: 'radio-buttons-30',
+            text: 'Zubair',
+          }]}
+        />
+
         </div>
 
         <div className="flex buttons">
-          Speaker 1:&nbsp;&nbsp;&nbsp;
-        <button type="button" className={buttonClass} onClick={null}>
-          Sami
-          </button>
-          <button type="button" className={buttonClass} onClick={null}>
-          Nadine
-          </button>
-          <button type="button" className={buttonClass} onClick={null}>
-          Diego
-          </button>
-        </div>
 
-        <div className="flex buttons">
-          Speaker 2:&nbsp;&nbsp;&nbsp;
-        <button type="button" className={buttonClass} onClick={null}>
-          Sami
-          </button>
-          <button type="button" className={buttonClass} onClick={null}>
-          Nadine
-          </button>
-          <button type="button" className={buttonClass} onClick={null}>
-          Diego
-          </button>
+        Speaker 1:&nbsp;&nbsp;&nbsp;
+        <ButtonsGroup
+          type="radio"  // radio, button, or checkbox
+          name="radio-buttonsS1"
+          fill="#dc9038"
+          onClick={e => console.log('clicked', e)}
+          onChange={e => console.log('changed', e)}
+          buttons={[{
+            value: 1,
+            id: 'radio-buttons-11',  // id's must be unique across the entire page. Default value is name-value
+            text: 'Sami',
+          }, {
+            value: 2,
+            id: 'radio-buttons-21',
+            text: 'Nadine',
+          }, {
+            value: 3,
+            id: 'radio-buttons-31',
+            text: 'Zubair',
+          }]}
+        />
 
+    </div>
+    <div className="flex buttons">
+        Speaker 2:&nbsp;&nbsp;&nbsp;
+          <ButtonsGroup
+          type="radio"  // radio, button, or checkbox
+          name="radio-buttonsS2"
+          fill="#dc9038"
+          onClick={e => console.log('clicked', e)}
+          onChange={e => console.log('changed', e)}
+          buttons={[{
+            value: 1,
+            id: 'radio-buttons-12',  // id's must be unique across the entire page. Default value is name-value
+            text: 'Sami',
+          }, {
+            value: 2,
+            id: 'radio-buttons-22',
+            text: 'Nadine',
+          }, {
+            value: 3,
+            id: 'radio-buttons-32',
+            text: 'Zubair',
+          }]}
+        />
+
+      
 
 
 
