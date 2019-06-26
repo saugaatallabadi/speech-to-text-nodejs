@@ -15,10 +15,13 @@ import ActionItems from './ActionItems.js';
 import samples from '../src/data/samples.json';
 import cachedModels from '../src/data/models.json';
 import Test from './Test.js';
+import { Send } from 'react-feather';
+
 const ERR_MIC_NARROWBAND = 'Microphone transcription cannot accommodate narrowband voice models, please select a broadband one.';
 
 export class Demo extends Component {
   constructor(props) {
+    // console.log(React.version);
     super();
     this.state = {
       speaker0:false,
@@ -732,10 +735,12 @@ export class Demo extends Component {
             <Icon type={audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
           </button>
 
-          {/* <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
-            <Icon type={audioSource === 'upload' ? 'stop' : 'upload'} /> Upload Audio File
+           <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
+            <Send></Send>
+            Send Mail
           </button>
 
+          {/*
           <button type="button" className={buttonClass} onClick={this.handleSample1Click}>
             <Icon type={audioSource === 'sample-1' ? 'stop' : 'play'} /> Play Sample 1
           </button>
@@ -752,12 +757,12 @@ export class Demo extends Component {
           <Pane label="Transcription">
             {settingsAtStreamStart.speakerLabels
               ? <SpeakersView messages={messages} 
-              speaker0={this.state.speak0}
-              speaker1={this.state.speak1}
-              speaker2={this.state.speak2}
-              speaker3={this.state.speak3}
-              speaker4={this.state.speak4}
-              speaker5={this.state.speak5}/>
+                  speaker0={this.state.speak0}
+                  speaker1={this.state.speak1}
+                  speaker2={this.state.speak2}
+                  speaker3={this.state.speak3}
+                  speaker4={this.state.speak4}
+                  speaker5={this.state.speak5}/>
               : <Transcript messages={messages} />}
           </Pane>
           <Pane label={"Arabic Translation"}>
@@ -776,7 +781,18 @@ export class Demo extends Component {
           </Pane>  */}
         </Tabs>
         <div style={{alignItems:'center', justifyContent:'center', width:'100%',height:'500px',backgroundColor:'cyan'}}>
-          {/* <Test></Test> */}
+        <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
+            <Send></Send>
+            Send Mail
+          </button>
+          <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
+            <Send></Send>
+            Send Mail
+          </button>
+          <button type="button" className={buttonClass} onClick={this.handleUploadClick}>
+            <Send></Send>
+            Send Mail
+          </button>
         </div>
       </Dropzone>
     );
