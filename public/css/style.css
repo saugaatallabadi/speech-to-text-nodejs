@@ -43,7 +43,19 @@ dialog, dd, dt {
     padding: 0;
 }
 
+.base--radio:checked+.buttons-group--button {
+    background-color: #dc9038;
+}
 
+.buttons-group--button:active {
+    transform:none;
+    background-color:#dc9038;
+    color:#fff
+}
+
+.base--button, button {
+    color: #dc9038;
+}
 
 /* drag-drop styles */
 ._container {
