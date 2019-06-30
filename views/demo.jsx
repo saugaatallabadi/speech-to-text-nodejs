@@ -97,6 +97,14 @@ export class Demo extends Component {
     this.setState({ rawMessages: [], formattedMessages: [], error: null });
   }
 
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom() {
+    this.el.scrollIntoView({ behavior: 'smooth' });
+  }
+
   /**
      * The behavior of several of the views depends on the settings when the
      * transcription was started. So, this stores those values in a settingsAtStreamStart object.
@@ -954,6 +962,7 @@ export class Demo extends Component {
           }]}
         />
         </div>:null}
+        <div ref={el => { this.el = el; }} />
       </Dropzone>
     );
   }
