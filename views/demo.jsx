@@ -24,6 +24,7 @@ export class Demo extends Component {
     // console.log(React.version);
     super();
     this.state = {
+      statusOrbColor: 'red',
       sendDisabled:true,
       emailBody:'',
       mailText:"Send Transcript",
@@ -456,8 +457,7 @@ export class Demo extends Component {
       }
       else if (response.status == 200) {
         response.json().then(responseJson => {
-          this.setState({rammerToken:responseJson.accessToken});
-          console.log('got token');
+          this.setState({rammerToken:responseJson.accessToken,statusOrbColor:'#dc9038'});
         })
       }
     }).catch(error => {
@@ -572,7 +572,7 @@ export class Demo extends Component {
       // iPod Touch does this on iOS 11 - there is a microphone, but Safari claims there isn't
       err = 'Unable to access microphone';
     }
-    this.setState({ error: err.message || err });
+    this.setState({ error: err.message || err});
   }
 
   renderRadioButtons(messages){
@@ -842,6 +842,7 @@ export class Demo extends Component {
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
         </Tabs>
+        <div style={{alignSelf:'right', backgroundColor:this.state.statusOrbColor, height:10,width:10,borderRadius:5}}></div>
         {this.state.speaker0?<div className="flex buttons">
 
         Speaker 0:&nbsp;&nbsp;&nbsp;
