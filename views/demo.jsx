@@ -179,19 +179,19 @@ export class Demo extends Component {
     }
     else if(num==1&&this.state.speak1!=null){
         return this.state.speak1;
-    }    
+    }
     else if(num==2&&this.state.speak2!=null){
       return this.state.speak2;
-    } 
+    }
     else if(num==3&&this.state.speak3!=null){
         return this.state.speak3;
-    } 
+    }
     else if(num==4&&this.state.speak4!=null){
       return this.state.speak4;
-    } 
+    }
     else if(num==5&&this.state.speak5!=null){
       return this.state.speak5;
-    } 
+    }
     else {
       return num!=null?"Speaker "+num:"Someone";
     }
@@ -444,7 +444,7 @@ export class Demo extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        
+
       },
       body: JSON.stringify({
           type: "application",
@@ -576,7 +576,7 @@ export class Demo extends Component {
   }
 
   renderRadioButtons(messages){
-    
+
     let speaker0=false;
     let speaker1=false;
     let speaker2=false;
@@ -648,13 +648,13 @@ export class Demo extends Component {
           "content": [
             {
               "type": "text/html",
-              "value": '<!doctype html><html> <head> <meta name="viewport" content="width=device-width" /> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style> /* ------------------------------------- GLOBAL RESETS ------------------------------------- */ img { border: none; -ms-interpolation-mode: bicubic; max-width: 750px; } body { background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; } table { border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; } table td { font-family: sans-serif; font-size: 14px; vertical-align: top; } /* ------------------------------------- BODY & CONTAINER ------------------------------------- */ .body { background-color: #f6f6f6; width: 100%; } /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */ .container { display: block; Margin: 0 auto !important; /* makes it centered */ max-width: 700px; padding: 10px; width: 700px; } /* This should also be a block element, so that it will fill 100% of the .container */ .content { box-sizing: border-box; display: block; Margin: 0 auto; max-width: 700px; padding: 10px; } /* ------------------------------------- HEADER, FOOTER, MAIN ------------------------------------- */ .main { background: #ffffff; border-radius: 3px; width: 100%; } .wrapper { box-sizing: border-box; padding: 20px; } .content-block { padding-bottom: 10px; padding-top: 10px; } .footer { clear: both; Margin-top: 10px; text-align: center; width: 100%; } .footer td, .footer p, .footer span, .footer a { color: #000000; font-size: 12px; text-align: center; } /* ------------------------------------- TYPOGRAPHY ------------------------------------- */ h1, h2, h3, h4 { color: #000000; font-family: sans-serif; font-weight: 400; line-height: 1.4; margin: 0; Margin-bottom: 30px; } h1 { font-size: 35px; font-weight: 300; text-align: center; text-transform: capitalize; } p, ul, ol { font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px; } p li, ul li, ol li { list-style-position: inside; margin-left: 5px; } a { color: #000000; text-decoration: underline; } /* ------------------------------------- BUTTONS ------------------------------------- */ .btn { box-sizing: border-box; width: 100%; } .btn > tbody > tr > td { padding-bottom: 4px; } .btn table { width: auto; } .btn table td { background-color: #000000; border-radius: 5px; text-align: center; } .btn a { background-color: #000000; border: solid 1px #E0301E; border-radius: 5px; box-sizing: border-box; color: #E0301E; cursor: pointer; display: inline-block; font-size: 8px; font-weight: bold; margin: 0; padding: 6px 15px; text-decoration: none; text-transform: none; } .btn-primary table td { background-color: #E0301E; } .btn-primary a { background-color: #E0301E; border-color: #E0301E; color: #ffffff; } /* ------------------------------------- OTHER STYLES THAT MIGHT BE USEFUL ------------------------------------- */ .last { margin-bottom: 0; } .first { margin-top: 0; } .align-center { text-align: center; } .align-right { text-align: right; } .align-left { text-align: left; } .clear { clear: both; } .mt0 { margin-top: 0; } .mb0 { margin-bottom: 0; } .preheader { color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0; } .powered-by a { text-decoration: none; } hr { border: 0; border-bottom: 1px solid #000000; Margin: 20px 0; } /* ------------------------------------- RESPONSIVE AND MOBILE FRIENDLY STYLES ------------------------------------- */ @media only screen and (max-width: 620px) { table[class=body] h1 { font-size: 28px !important; margin-bottom: 10px !important; } table[class=body] p, table[class=body] ul, table[class=body] ol, table[class=body] td, table[class=body] span, table[class=body] a { font-size: 16px !important; } table[class=body] .wrapper, table[class=body] .article { padding: 10px !important; } table[class=body] .content { padding: 0 !important; } table[class=body] .container { padding: 0 !important; width: 100% !important; } table[class=body] .main { border-left-width: 0 !important; border-radius: 0 !important; border-right-width: 0 !important; } table[class=body] .btn table { width: 100% !important; } table[class=body] .btn a { width: 100% !important; } table[class=body] .img-responsive { height: auto !important; max-width: 100% !important; width: auto !important; }} /* ------------------------------------- PRESERVE THESE STYLES IN THE HEAD ------------------------------------- */ @media all { .ExternalClass { width: 100%; } .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; } .apple-link a { color: inherit !important; font-family: inherit !important; font-size: inherit !important; font-weight: inherit !important; line-height: inherit !important; text-decoration: none !important; } .btn-primary table td:hover { background-color: #E0301E !important; } .btn-primary a:hover { background-color: #E0301E !important; border-color: #E0301E !important; } } </style> </head> <body class=""> <table border="0" cellpadding="0" cellspacing="0" class="body"> <tr> <td> </td> <td class="container"> <div class="content"> <!-- START CENTERED WHITE CONTAINER --> <span class="preheader" ></span> <table class="main"> <!-- START MAIN CONTENT AREA --> <tr> <td class="wrapper" style =" width: 85%";> <img src ="https://i.imgur.com/nnhzRIq.png"  style =" width: 100%";> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td><span style="color: #000000; "><p>See attached for meeting minutes in Arabic</p><p>'
+              "value": '<!doctype html><html> <head> <meta name="viewport" content="width=device-width" /> <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><style> /* ------------------------------------- GLOBAL RESETS ------------------------------------- */ img { border: none; -ms-interpolation-mode: bicubic; max-width: 750px; } body { background-color: #f6f6f6; font-family: sans-serif; -webkit-font-smoothing: antialiased; font-size: 14px; line-height: 1.4; margin: 0; padding: 0; -ms-text-size-adjust: 100%; -webkit-text-size-adjust: 100%; } table { border-collapse: separate; mso-table-lspace: 0pt; mso-table-rspace: 0pt; width: 100%; } table td { font-family: sans-serif; font-size: 14px; vertical-align: top; } /* ------------------------------------- BODY & CONTAINER ------------------------------------- */ .body { background-color: #f6f6f6; width: 100%; } /* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */ .container { display: block; Margin: 0 auto !important; /* makes it centered */ max-width: 700px; padding: 10px; width: 700px; } /* This should also be a block element, so that it will fill 100% of the .container */ .content { box-sizing: border-box; display: block; Margin: 0 auto; max-width: 700px; padding: 10px; } /* ------------------------------------- HEADER, FOOTER, MAIN ------------------------------------- */ .main { background: #ffffff; border-radius: 3px; width: 100%; } .wrapper { box-sizing: border-box; padding: 20px; } .content-block { padding-bottom: 10px; padding-top: 10px; } .footer { clear: both; Margin-top: 10px; text-align: center; width: 100%; } .footer td, .footer p, .footer span, .footer a { color: #000000; font-size: 12px; text-align: center; } /* ------------------------------------- TYPOGRAPHY ------------------------------------- */ h1, h2, h3, h4 { color: #000000; font-family: sans-serif; font-weight: 400; line-height: 1.4; margin: 0; Margin-bottom: 30px; } h1 { font-size: 35px; font-weight: 300; text-align: center; text-transform: capitalize; } p, ul, ol { font-family: sans-serif; font-size: 14px; font-weight: normal; margin: 0; Margin-bottom: 15px; } p li, ul li, ol li { list-style-position: inside; margin-left: 5px; } a { color: #000000; text-decoration: underline; } /* ------------------------------------- BUTTONS ------------------------------------- */ .btn { box-sizing: border-box; width: 100%; } .btn > tbody > tr > td { padding-bottom: 4px; } .btn table { width: auto; } .btn table td { background-color: #000000; border-radius: 5px; text-align: center; } .btn a { background-color: #000000; border: solid 1px #E0301E; border-radius: 5px; box-sizing: border-box; color: #E0301E; cursor: pointer; display: inline-block; font-size: 8px; font-weight: bold; margin: 0; padding: 6px 15px; text-decoration: none; text-transform: none; } .btn-primary table td { background-color: #E0301E; } .btn-primary a { background-color: #E0301E; border-color: #E0301E; color: #ffffff; } /* ------------------------------------- OTHER STYLES THAT MIGHT BE USEFUL ------------------------------------- */ .last { margin-bottom: 0; } .first { margin-top: 0; } .align-center { text-align: center; } .align-right { text-align: right; } .align-left { text-align: left; } .clear { clear: both; } .mt0 { margin-top: 0; } .mb0 { margin-bottom: 0; } .preheader { color: transparent; display: none; height: 0; max-height: 0; max-width: 0; opacity: 0; overflow: hidden; mso-hide: all; visibility: hidden; width: 0; } .powered-by a { text-decoration: none; } hr { border: 0; border-bottom: 1px solid #000000; Margin: 20px 0; } /* ------------------------------------- RESPONSIVE AND MOBILE FRIENDLY STYLES ------------------------------------- */ @media only screen and (max-width: 620px) { table[class=body] h1 { font-size: 28px !important; margin-bottom: 10px !important; } table[class=body] p, table[class=body] ul, table[class=body] ol, table[class=body] td, table[class=body] span, table[class=body] a { font-size: 16px !important; } table[class=body] .wrapper, table[class=body] .article { padding: 10px !important; } table[class=body] .content { padding: 0 !important; } table[class=body] .container { padding: 0 !important; width: 100% !important; } table[class=body] .main { border-left-width: 0 !important; border-radius: 0 !important; border-right-width: 0 !important; } table[class=body] .btn table { width: 100% !important; } table[class=body] .btn a { width: 100% !important; } table[class=body] .img-responsive { height: auto !important; max-width: 100% !important; width: auto !important; }} /* ------------------------------------- PRESERVE THESE STYLES IN THE HEAD ------------------------------------- */ @media all { .ExternalClass { width: 100%; } .ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div { line-height: 100%; } .apple-link a { color: inherit !important; font-family: inherit !important; font-size: inherit !important; font-weight: inherit !important; line-height: inherit !important; text-decoration: none !important; } .btn-primary table td:hover { background-color: #E0301E !important; } .btn-primary a:hover { background-color: #E0301E !important; border-color: #E0301E !important; } } </style> </head> <body class=""> <table border="0" cellpadding="0" cellspacing="0" class="body"> <tr> <td> </td> <td class="container"> <div class="content"> <!-- START CENTERED WHITE CONTAINER --> <span class="preheader" ></span> <table class="main"> <!-- START MAIN CONTENT AREA --> <tr> <td class="wrapper" style =" width: 85%";> <img src ="https://i.imgur.com/0DTgelc.png"  style =" width: 100%";> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td><span style="color: #000000; "><p>See attached for meeting minutes in Arabic</p><p>'
               +this.getTranslation()
               +'</p> <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary"> <tbody> <tr> <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary"> <tbody> <tr> <td align="left"> <table border="0" cellpadding="0" cellspacing="0"> <tbody> <tr> <td> <a href="https://docs.google.com/presentation/d/1-a9aEQZnzUGm46RbYD_EEXHDwYNm79yVbA_jRvMOwyw/edit?usp=sharing" target="_blank">Download the translated PDF here!</a> </td> </tr> </tbody> </table> </td> </tr> </tbody> </table> <p></p> <p>Warm Regards<br /><b>EmTech Lab</b></p></span> </td> </tr> </table> </td> </tr> <!-- END MAIN CONTENT AREA --> </table> <!-- START FOOTER --> <div class="footer"> <table border="0" cellpadding="0" cellspacing="0"> <tr> <td class="content-block"> <span class="apple-link"></span> <br> This email is powered by the EmTech Team, Dubai </br> </td> </tr> </table> </div> <!-- END FOOTER --> <!-- END CENTERED WHITE CONTAINER --> </div> </td> <td> </td> </tr> </table> </body></html>'
             }
           ],
-        
-           "attachments": [{  
+
+           "attachments": [{
                     "filename": "Minutes of the Meeting.docx",
                     "content" :"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"
                     +"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"
@@ -806,7 +806,7 @@ export class Demo extends Component {
           <button type="button" className={micButtonClass} onClick={this.handleMicClick}>
             <Icon type={audioSource === 'mic' ? 'stop' : 'microphone'} fill={micIconFill} /> Record Audio
           </button>
-          
+
           <button type="button" className={buttonClass} disabled={this.state.sendDisabled} onClick={()=>this.sendTranscript()}>
             <Icon type={'link-out'} /> {this.state.mailText}
           </button>
@@ -818,7 +818,7 @@ export class Demo extends Component {
         <Tabs selected={0}>
           <Pane label="Transcription">
             {settingsAtStreamStart.speakerLabels
-              ? <SpeakersView messages={messages} 
+              ? <SpeakersView messages={messages}
                   speaker0={this.state.speak0}
                   speaker1={this.state.speak1}
                   speaker2={this.state.speak2}
@@ -834,7 +834,7 @@ export class Demo extends Component {
             />
           </Pane>
           <Pane label="Action Items">
-            <ActionItems ref="ActionItems" messages={messages} 
+            <ActionItems ref="ActionItems" messages={messages}
               raw={rawMessages} formatted={formattedMessages} actionItems={this.state.actionItems}
             />
           </Pane>
@@ -853,17 +853,17 @@ export class Demo extends Component {
           onClick={e => this.setState({speak0:e.currentTarget.value})}
           // onChange={() => console.log('changed', value)}
           buttons={[{
-            value: "Sami Shatri",
+            value: "Diego Calix",
             id: 'radio-buttons-10',  // id's must be unique across the entire page. Default value is name-value
-            text: 'Sami Shatri',
+            text: 'Diego Calix',
           }, {
-            value: "Maha Hashemi",
+            value: "Nadine Labban",
             id: 'radio-buttons-20',
-            text: 'Maha Hashemi',
+            text: 'Nadine Labban',
           }, {
-            value: "Ahmad Khattab",
+            value: "Carlos David",
             id: 'radio-buttons-30',
-            text: 'Ahmad Khattab',
+            text: 'Carlos David',
           }]}
         />
 
@@ -879,17 +879,17 @@ export class Demo extends Component {
           onClick={e => this.setState({speak1:e.currentTarget.value})}
           // onChange={e => console.log('changed', e)}
           buttons={[{
-            value: "Sami Shatri",
+            value: "Diego Calix",
             id: 'radio-buttons-11',  // id's must be unique across the entire page. Default value is name-value
-            text: 'Sami Shatri',
+            text: 'Diego Calix',
           }, {
-            value: "Maha Hashemi",
+            value: "Nadine Labban",
             id: 'radio-buttons-21',
-            text: 'Maha Hashemi',
+            text: 'Nadine Labban',
           }, {
-            value: "Ahmad Khattab",
+            value: "Carlos David",
             id: 'radio-buttons-31',
-            text: 'Ahmad Khattab',
+            text: 'Carlos David',
           }]}
         />
 
@@ -903,17 +903,17 @@ export class Demo extends Component {
           onClick={e => this.setState({speak2:e.currentTarget.value})}
           // onChange={e => console.log('changed', e)}
           buttons={[{
-            value: "Sami Shatri",
+            value: "Diego Calix",
             id: 'radio-buttons-12',  // id's must be unique across the entire page. Default value is name-value
-            text: 'Sami Shatri',
+            text: 'Diego Calix',
           }, {
-            value: "Maha Hashemi",
+            value: "Nadine Labban",
             id: 'radio-buttons-22',
-            text: 'Maha Hashemi',
+            text: 'Nadine Labban',
           }, {
-            value: "Ahmad Khattab",
+            value: "Carlos David",
             id: 'radio-buttons-32',
-            text: 'Ahmad Khattab',
+            text: 'Carlos David',
           }]}
         />
         </div>:null}
@@ -926,17 +926,17 @@ export class Demo extends Component {
           onClick={e => this.setState({speak3:e.currentTarget.value})}
           // onChange={e => console.log('changed', e)}
           buttons={[{
-            value: "Sami Shatri",
+            value: "Diego Calix",
             id: 'radio-buttons-100',  // id's must be unique across the entire page. Default value is name-value
-            text: 'Sami Shatri',
+            text: 'Diego Calix',
           }, {
-            value: "Maha Hashemi",
+            value: "Nadine Labban",
             id: 'radio-buttons-101',
-            text: 'Maha Hashemi',
+            text: 'Nadine Labban',
           }, {
-            value: "Ahmad Khattab",
+            value: "Carlos David",
             id: 'radio-buttons-102',
-            text: 'Ahmad Khattab',
+            text: 'Carlos David',
           }]}
         />
         </div>:null}
@@ -949,17 +949,17 @@ export class Demo extends Component {
           onClick={e => this.setState({speak4:e.currentTarget.value})}
           // onChange={e => console.log('changed', e)}
           buttons={[{
-            value: "Sami Shatri",
+            value: "Diego Calix",
             id: 'radio-buttons-16',  // id's must be unique across the entire page. Default value is name-value
-            text: 'Sami Shatri',
+            text: 'Diego Calix',
           }, {
-            value: "Maha Hashemi",
+            value: "Nadine Labban",
             id: 'radio-buttons-27',
-            text: 'Maha Hashemi',
+            text: 'Nadine Labban',
           }, {
-            value: "Ahmad Khattab",
+            value: "Carlos David",
             id: 'radio-buttons-38',
-            text: 'Ahmad Khattab',
+            text: 'Carlos David',
           }]}
         />
         </div>:null}
