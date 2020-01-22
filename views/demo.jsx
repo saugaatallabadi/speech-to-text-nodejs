@@ -840,11 +840,14 @@ export class Demo extends Component {
               raw={rawMessages} formatted={formattedMessages} translations={this.state.translations}
             />
           </Pane>
-          <Pane label="Action Items">
+          {/* Hiding Action Items tab (temporarily) */}
+          {/* <Pane label="Action Items">
             <ActionItems ref="ActionItems" messages={messages}
               raw={rawMessages} formatted={formattedMessages} actionItems={this.state.actionItems}
             />
-          </Pane>
+          </Pane> */}
+
+
           {/* <Pane label="JSON">
             <JSONView raw={rawMessages} formatted={formattedMessages} />
           </Pane>  */}
